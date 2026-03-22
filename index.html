@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Ramo Amarillo para Tatina</title>
+
+<style>
+body {
+    margin: 0;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+canvas {
+    background: white;
+}
+
+#mensaje {
+    margin-top: 20px;
+    max-width: 450px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 2s;
+    color: #222;
+}
+</style>
+
+</head>
+<body>
+
+<canvas id="lienzo" width="500" height="550"></canvas>
+
+<div id="mensaje">
+    <h3>Para Tatina (No juzgues las flores) 🌼</h3>
+    <p>
+        No es que me guste hacer esto... pero no tenía mas que hacer, ya me teminé de ver dos péliculas lol.<br><br>
+        Entre todas tus locuras y pensaminetos dementes el que seas sincensa y divertida es lo que tienes de cool y agradable
+         y soprendentemente compartimos eso—, al menos eres una buena compañía para el desmadre y hablar wbs.<br><br>
+        La vrd nunca pensé conocerte pero desgraciadamente así fue jsjs(mentirita), nose que te esté pasando ahora mismo 
+        pero yo sé que tienes algo que no lo dejas salir y creo que eso te está afectando nose hasta que punto te importe eso pero bueno
+        espero que lo sigas tomando como algo que pronto pasará. El pensar que eres una persona fuerte te 
+        está ayudando bastante y yo sé que podras con todo(eso incluye conquistar a Nicol)xd. Bye pndja, espero que ya no tenga fiebre. 
+    </p>
+</div>
+
+<script>
+const canvas = document.getElementById("lienzo");
+const ctx = canvas.getContext("2d");
+
+let paso = 0;
+
+// pétalos brillantes
+function petalo(x,y,rot){
+    ctx.save();
+    ctx.translate(x,y);
+    ctx.rotate(rot);
+
+    let grad = ctx.createRadialGradient(0,0,5,0,0,40);
+    grad.addColorStop(0, "#FFF176");
+    grad.addColorStop(1, "#FFC107");
+
+    ctx.fillStyle = grad;
+    ctx.globalAlpha = 0.9;
+
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 18, 45, 0, 0, Math.PI*2);
+    ctx.fill();
+
+    ctx.restore();
+}
+
+// flor grande tipo girasol
+function flor(x,y){
+    for(let i=0;i<16;i++){
+        petalo(x,y,i*(Math.PI/8));
+    }
+
+    // centro
+    let grad = ctx.createRadialGradient(x,y,5,x,y,20);
+    grad.addColorStop(0,"#6D4C41");
+    grad.addColorStop(1,"#3E2723");
+
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(x,y,18,0,Math.PI*2);
+    ctx.fill();
+}
+
+// tallo elegante
+function tallo(x,curva){
+    ctx.beginPath();
+    ctx.moveTo(x,500);
+    ctx.quadraticCurveTo(x+curva,350,x,250);
+    ctx.strokeStyle = "#2E7D32";
+    ctx.lineWidth = 5;
+    ctx.stroke();
+}
+
+// hojas suaves
+function hoja(x,y){
+    ctx.fillStyle = "#66BB6A";
+    ctx.globalAlpha = 0.7;
+
+    ctx.beginPath();
+    ctx.ellipse(x,y,35,15,Math.random(),0,Math.PI*2);
+    ctx.fill();
+}
+
+// animación progresiva
+function animar(){
+    ctx.clearRect(0,0,500,550);
+
+    if(paso >= 1){
+        tallo(150,-40);
+        tallo(250,20);
+        tallo(350,40);
+    }
+
+    if(paso >= 2){
+        hoja(140,400);
+        hoja(260,380);
+        hoja(360,410);
+    }
+
+    if(paso >= 3){
+        flor(150,240);
+    }
+
+    if(paso >= 4){
+        flor(250,220);
+    }
+
+    if(paso >= 5){
+        flor(350,240);
+    }
+
+    if(paso >= 6){
+        flor(200,260);
+        flor(300,260);
+    }
+
+    paso++;
+
+    if(paso <= 7){
+        setTimeout(animar, 600);
+    } else {
+        document.getElementById("mensaje").style.opacity = 1;
+    }
+}
+
+animar();
+</script>
+
+</body>
+</html>
